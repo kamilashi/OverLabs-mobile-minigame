@@ -5,8 +5,8 @@ using UnityEngine;
 public class FloorManager : MonoBehaviour
 {
     private float _tileSize = 1;
-    private float _gridWidth = 6;
-    private float _gridHeight = 6;
+    private float _gridWidth = 5;
+    private float _gridHeight = 5;
 
     // Start is called before the first frame update
     void Start()

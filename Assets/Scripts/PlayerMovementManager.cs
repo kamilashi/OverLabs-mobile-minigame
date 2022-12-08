@@ -44,7 +44,7 @@ public class PlayerMovementManager : MonoBehaviour
         float angleRad = Mathf.Acos(direction.x)+Mathf.PI/4;
         Vector3 refDiag = Vector3.Normalize(new Vector3(1, 1, 0));
         if (Vector3.Dot(direction, refDiag) >= 0) { shiftedQuarter = (int)Mathf.Ceil((angleRad ) / (Mathf.PI / 2));  }
-        else if(Vector3.Dot(direction, refDiag) < 0) { shiftedQuarter = (int)Mathf.Ceil((2*Mathf.PI + Mathf.PI / 4 - angleRad) / (Mathf.PI / 2));  }
+        else if(Vector3.Dot(direction, refDiag) < 0) { shiftedQuarter = (int)Mathf.Ceil((2*Mathf.PI + Mathf.PI / 2 - angleRad) / (Mathf.PI / 2));  }
         Debug.Log("angle = " + angleRad + " , newDirection = " + shiftedQuarter);
         Direction newDirection = (Direction)(shiftedQuarter-1);
         return newDirection;
