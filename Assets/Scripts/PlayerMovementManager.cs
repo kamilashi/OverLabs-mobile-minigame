@@ -1,19 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Enums;
 
 public class PlayerMovementManager : MonoBehaviour
 {
     private Vector3 tapPosDown;
     private Vector3 tapPosUp;
-    enum Direction
-    {
-        Right,
-        Up,
-        Left,
-        Down
-    };
+    
     Direction curDirection;
+
+    public Vector3 Velocity { get; set; }
+
 
     // Start is called before the first frame update
     void Start()
@@ -55,16 +53,20 @@ public class PlayerMovementManager : MonoBehaviour
         switch (direction)
         {
             case Direction.Right:
-                transform.position += new Vector3(1, 0, 0);
+                Velocity = new Vector3(1, 0, 0);
+                transform.position += Velocity;
                 break;
             case Direction.Up:
-                transform.position += new Vector3(0, 1, 0);
+                Velocity = new Vector3(0, 1, 0);
+                transform.position += Velocity;
                 break;
             case Direction.Left:
-                transform.position += new Vector3(-1, 0, 0);
+                Velocity = new Vector3(-1, 0, 0);
+                transform.position += Velocity;
                 break;
             case Direction.Down:
-                transform.position += new Vector3(0, -1, 0);
+                Velocity = new Vector3(0, -1, 0);
+                transform.position += Velocity;
                 break;
 
         }
