@@ -32,8 +32,11 @@ public class PlayerManager : MonoBehaviour
         {
             _tapPosUp = Input.mousePosition;
             Vector3 direction = Vector3.Normalize(_tapPosUp - _tapPosDown);
-            _curDirection = ProcessDirection(direction);
-            Move(_curDirection);
+            if (direction.magnitude != 0) {
+                _curDirection = ProcessDirection(direction);
+                Move(_curDirection);
+            }
+            
         }
     }
 
