@@ -32,20 +32,20 @@ public class MovementComponent : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        //be pushed when collided with an object of greater velocity
         if (IsMovable)
         {
-
             Vector3 otherVelocity = other.gameObject.GetComponent<MovementComponent>().Velocity;
             if(Vector3.Magnitude(Velocity) < Vector3.Magnitude(otherVelocity))
             {
                 Velocity = otherVelocity;
-                Debug.Log("new V = " + Velocity);
                 Move();
             }
            
         }
     }
 
+    // for synchronization safety stop the movement on the next frame
     private void OnTriggerExit2D(Collider2D other)
     {
         if (IsMovable)
@@ -54,6 +54,7 @@ public class MovementComponent : MonoBehaviour
         }
     }
 
+    // Move one unit in direction of current velocity
     private void Move()
     {
         gameObject.GetComponent<Rigidbody2D>().MovePosition(transform.position + Velocity);

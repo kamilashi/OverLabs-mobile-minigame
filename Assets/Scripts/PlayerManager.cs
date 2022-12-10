@@ -10,7 +10,7 @@ public class PlayerManager : MonoBehaviour
 
     private Direction _curDirection;
     [SerializeField]
-    public MovementComponent MovementComponent;
+    internal MovementComponent MovementComponent;
 
 
     // Start is called before the first frame update
