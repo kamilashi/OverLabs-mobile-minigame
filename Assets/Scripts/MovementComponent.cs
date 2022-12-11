@@ -10,7 +10,12 @@ public class MovementComponent : MonoBehaviour
     public bool IsMovable = true;
     public bool IsPlayer = false;
     public bool IsWall = false;
+    [SerializeField]
+    public bool blocked = false;
     private bool stop = false;
+    public bool moveCommand = false;
+    [SerializeField]
+    private GameObject parent;
 
     private void Awake()
     {
@@ -25,25 +30,47 @@ public class MovementComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+        if ((moveCommand)&&(!blocked))
+        {
+           Move();
+           moveCommand = false;
+           return;
+        }
+
         if (stop)
         {
             Velocity = Vector3.zero;
             stop = false;
         }
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         MovementComponent collidedWith = other.gameObject.GetComponent<MovementComponent>();
         //be pushed when collided with an object of greater velocity
-        //if(collidedWith.IsWall)
-        if (IsMovable)
+        if ((!IsWall)&& (collidedWith.IsWall)) {
+            Debug.Log("collided with a wall!");
+            sendBlockedToParents(1, -Velocity);
+            return;
+        }
+
+        if ((IsMovable)&&(!(collidedWith.blocked)))
         {
             Vector3 otherVelocity = collidedWith.Velocity;
-            if(Vector3.Magnitude(Velocity) < Vector3.Magnitude(otherVelocity))
+
+            if (Vector3.Magnitude(Velocity) < Vector3.Magnitude(otherVelocity))
             {
+                blocked = false;
+                //if (!IsPlayer)
+                //{
+                //    Debug.Log("pushed by player with velocity " + otherVelocity.x + ", " + otherVelocity.y);
+                //}
+                parent = other.gameObject;
                 Velocity = otherVelocity;
-                Move();
+                moveCommand = true;
             }
         }
     }
@@ -61,6 +88,24 @@ public class MovementComponent : MonoBehaviour
     private void Move()
     {
         gameObject.GetComponent<Rigidbody2D>().MovePosition(transform.position + Velocity);
+    }
+
+    private void sendBlockedToParents(int level, Vector3 reverseVelocity)
+    {
+
+        blocked = true;
+        Velocity = reverseVelocity;
+        if (parent != null)
+        {
+            parent.GetComponent<MovementComponent>().sendBlockedToParents(level+1, reverseVelocity);
+        }
+        else
+        {
+            Debug.Log("player V " + Velocity.x + ", " + Velocity.y);
+        }
+        Move();
+        Debug.Log("level " + level + "crate, pushed by wall with velocity " + Velocity.x + ", " + Velocity.y);
+
     }
 
 }

@@ -9,7 +9,7 @@ public class EnvironmentManager : MonoBehaviour
     private float _tileSize = 1;
     private const int _gridWidth = 7; // always odd - change to single square size later
     private const int _gridHeight = 7; 
-    private int _crateNumber = 2;
+    private int _crateNumber = 3;
     private List<GameObject> _crates = new List<GameObject>();
     private int[,] _positionMap = new int[_gridWidth, _gridHeight];
     private bool _mapLock = false;
@@ -29,8 +29,18 @@ public class EnvironmentManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!_mapLock) 
-        { UpdatePositionMap(); }
+        if (!_mapLock)
+        {
+            try
+            {
+
+                UpdatePositionMap();
+            }
+            catch (System.Exception)
+            {
+                Debug.Log("failed update environment");
+                throw;
+            } }
     }
 
     void GenerateTerrain()
@@ -152,7 +162,7 @@ public class EnvironmentManager : MonoBehaviour
 
             _mapLock = false;
         }
-
+       
     }
 
     public void PlayerPositionDebug()
@@ -233,6 +243,18 @@ public class EnvironmentManager : MonoBehaviour
             }
         }
     }
+
+    bool checkMatrixBounds(Vector2 indexes)
+    {
+        //if ((indexes.x > 0) &&(indexes.x < ))
+        //{
+        //    if (() && ())
+        //    {
+
+        //    }
+        //}
+        return true;
+    }
     void instantiateCrates()
     {
         GameObject refCrate = (GameObject)Instantiate(Resources.Load("Crate"));
@@ -256,6 +278,5 @@ public class EnvironmentManager : MonoBehaviour
             }
         }
         Destroy(refCrate);
-
     }
 }

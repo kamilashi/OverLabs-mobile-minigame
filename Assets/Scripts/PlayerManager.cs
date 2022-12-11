@@ -58,21 +58,20 @@ public class PlayerManager : MonoBehaviour
         {
             case Direction.Right:
                 MovementComponent.Velocity = new Vector3(1, 0, 0);
-                transform.position += MovementComponent.Velocity;
                 break;
             case Direction.Up:
                 MovementComponent.Velocity = new Vector3(0, 1, 0);
-                transform.position += MovementComponent.Velocity;
                 break;
             case Direction.Left:
                 MovementComponent.Velocity = new Vector3(-1, 0, 0);
-                transform.position += MovementComponent.Velocity;
                 break;
             case Direction.Down:
                 MovementComponent.Velocity = new Vector3(0, -1, 0);
-                transform.position += MovementComponent.Velocity;
                 break;
 
         }
+
+        MovementComponent.blocked = false;
+        MovementComponent.moveCommand = true;
     }
 }
