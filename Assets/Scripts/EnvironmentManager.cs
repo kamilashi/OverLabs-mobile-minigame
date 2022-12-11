@@ -23,6 +23,7 @@ public class EnvironmentManager : MonoBehaviour
     {
         GenerateTerrain();
         GenerateCrates();
+        GenerateWalls();
     }
 
     // Update is called once per frame
@@ -44,6 +45,35 @@ public class EnvironmentManager : MonoBehaviour
             }
 
         }
+        Destroy(refTile);
+
+    }
+    void GenerateWalls()
+    {
+        GameObject refTile = (GameObject)Instantiate(Resources.Load("TileWall"));
+
+        // create horizontal
+        for (int i = -1; i <= _gridWidth; i++)
+        {
+            for (int j = -1; j <= _gridHeight; j+= _gridHeight+1)
+            {
+                Vector2 position = new Vector2(i - (_gridWidth - _tileSize) / 2, j - (_gridHeight - _tileSize) / 2) * _tileSize;
+                GameObject tile = (GameObject)Instantiate(refTile, position, Quaternion.identity, transform);
+            }
+
+        }
+
+        // create vertical
+        for (int i = -1; i <= _gridWidth; i+=_gridWidth+1)
+        {
+            for (int j = -1; j <= _gridHeight; j ++)
+            {
+                Vector2 position = new Vector2(i - (_gridWidth - _tileSize) / 2, j - (_gridHeight - _tileSize) / 2) * _tileSize;
+                GameObject tile = (GameObject)Instantiate(refTile, position, Quaternion.identity, transform);
+            }
+
+        }
+
         Destroy(refTile);
 
     }

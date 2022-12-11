@@ -8,6 +8,8 @@ public class MovementComponent : MonoBehaviour
     public Vector3 Velocity;
     [SerializeField]
     public bool IsMovable = true;
+    public bool IsPlayer = false;
+    public bool IsWall = false;
     private bool stop = false;
 
     private void Awake()
@@ -32,16 +34,17 @@ public class MovementComponent : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        MovementComponent collidedWith = other.gameObject.GetComponent<MovementComponent>();
         //be pushed when collided with an object of greater velocity
+        //if(collidedWith.IsWall)
         if (IsMovable)
         {
-            Vector3 otherVelocity = other.gameObject.GetComponent<MovementComponent>().Velocity;
+            Vector3 otherVelocity = collidedWith.Velocity;
             if(Vector3.Magnitude(Velocity) < Vector3.Magnitude(otherVelocity))
             {
                 Velocity = otherVelocity;
                 Move();
             }
-           
         }
     }
 
