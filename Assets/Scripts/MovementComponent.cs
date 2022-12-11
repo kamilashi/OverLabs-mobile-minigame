@@ -32,7 +32,7 @@ public class MovementComponent : MonoBehaviour
     {
 
 
-        if ((moveCommand)&&(!blocked))
+        if (moveCommand)
         {
            Move();
            moveCommand = false;
@@ -51,13 +51,13 @@ public class MovementComponent : MonoBehaviour
     {
         MovementComponent collidedWith = other.gameObject.GetComponent<MovementComponent>();
         //be pushed when collided with an object of greater velocity
-        if ((!IsWall)&& (collidedWith.IsWall)) {
+        if ((!IsWall) && (collidedWith.IsWall)) {
             Debug.Log("collided with a wall!");
             sendBlockedToParents(1, -Velocity);
             return;
         }
 
-        if ((IsMovable)&&(!(collidedWith.blocked)))
+        if((IsMovable) && (!collidedWith.blocked))
         {
             Vector3 otherVelocity = collidedWith.Velocity;
 
@@ -99,13 +99,7 @@ public class MovementComponent : MonoBehaviour
         {
             parent.GetComponent<MovementComponent>().sendBlockedToParents(level+1, reverseVelocity);
         }
-        else
-        {
-            Debug.Log("player V " + Velocity.x + ", " + Velocity.y);
-        }
-        Move();
-        Debug.Log("level " + level + "crate, pushed by wall with velocity " + Velocity.x + ", " + Velocity.y);
-
+        moveCommand = true;
     }
 
 }

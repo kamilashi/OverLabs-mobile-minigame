@@ -157,7 +157,10 @@ public class EnvironmentManager : MonoBehaviour
             foreach (GameObject crate in _crates)
             {
                 Vector2 mapIndexes = ToMapIndexes(crate.transform.position.x, crate.transform.position.y);
-                _positionMap[(int)mapIndexes.x, (int)mapIndexes.y] = 1;
+                if (inMatrixBounds(mapIndexes))
+                {
+                    _positionMap[(int)mapIndexes.x, (int)mapIndexes.y] = 1;
+                }
             }
 
             _mapLock = false;
@@ -244,16 +247,16 @@ public class EnvironmentManager : MonoBehaviour
         }
     }
 
-    bool checkMatrixBounds(Vector2 indexes)
+    bool inMatrixBounds(Vector2 indexes)
     {
-        //if ((indexes.x > 0) &&(indexes.x < ))
-        //{
-        //    if (() && ())
-        //    {
-
-        //    }
-        //}
-        return true;
+        if ((indexes.x > 0) && (indexes.x < _gridWidth))
+        {
+            if ((indexes.y > 0) && (indexes.y < _gridHeight))
+            {
+                return true;
+            }
+        }
+        return false;
     }
     void instantiateCrates()
     {
