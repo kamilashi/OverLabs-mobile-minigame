@@ -30,7 +30,6 @@ public class EnvironmentManager : MonoBehaviour
     {
         if (!_mapLock) 
         { UpdatePositionMap(); }
-        
     }
 
     void GenerateTerrain()
@@ -154,7 +153,6 @@ public class EnvironmentManager : MonoBehaviour
         Vector2 _playerPosition = new Vector2(gameReference.playerReference.transform.position.x, gameReference.playerReference.transform.position.y);
         Vector2 playerMapIndexes = ToMapIndexes(_playerPosition.x, _playerPosition.y);
         _positionMap[(int)playerMapIndexes.x, (int)playerMapIndexes.y] = -1;
-        Debug.Log("Player at " + playerMapIndexes.x + ", " + playerMapIndexes.y);
 
         // store future crate positions:
         foreach (GameObject crate in _crates)
@@ -212,16 +210,14 @@ public class EnvironmentManager : MonoBehaviour
         {
             for (int j = 0; j < _gridHeight; j++)
             {
-                //Debug.Log("position map: " + _positionMap[i, j] + " at " + i + ", " + j);
-                if (_positionMap[i, j] >= 0)
+                if (_positionMap[i, j] >= 0) // ignore player slot (-1) 
                 {
                     _positionMap[i, j] = _positionMap[i, j] % 2;
                     if (_positionMap[i, j]==1)
                     {
-                        Debug.Log("1 at " + i + ", " + j);
-
+                        //Debug.Log("1 crate at (map indexes) " + i + ", " + j);
                         Vector3 position = ToPositionCoordinates(i, j) * _tileSize;
-                        Debug.Log("unity position " + position.x + ", " + position.y);
+                        //Debug.Log("unity position: " + position.x + ", " + position.y);
                         _crateNumber++;
                         GameObject crate = (GameObject)Instantiate(refCrate, position, Quaternion.identity, transform);
                         _crates.Add(crate);
