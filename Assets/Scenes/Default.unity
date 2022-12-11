@@ -283,9 +283,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Velocity: {x: 0, y: 0, z: 0}
-  IsMovable: 1
+  IsMovable: 0
   IsPlayer: 1
   IsWall: 0
+  blocked: 0
+  moveCommand: 0
+  parent: {fileID: 0}
 --- !u!1 &639240954
 GameObject:
   m_ObjectHideFlags: 0

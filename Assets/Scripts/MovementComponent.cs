@@ -36,7 +36,7 @@ public class MovementComponent : MonoBehaviour
         {
            Move();
            moveCommand = false;
-           return;
+           //return;
         }
 
         if (stop)
@@ -50,24 +50,21 @@ public class MovementComponent : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         MovementComponent collidedWith = other.gameObject.GetComponent<MovementComponent>();
-        //be pushed when collided with an object of greater velocity
+
         if ((!IsWall) && (collidedWith.IsWall)) {
             Debug.Log("collided with a wall!");
             sendBlockedToParents(1, -Velocity);
             return;
         }
 
-        if((IsMovable) && (!collidedWith.blocked))
+        //be pushed when collided with an object of greater velocity
+        if ((IsMovable) && (!collidedWith.blocked))
         {
             Vector3 otherVelocity = collidedWith.Velocity;
-
+            Debug.Log("Puching");
             if (Vector3.Magnitude(Velocity) < Vector3.Magnitude(otherVelocity))
             {
                 blocked = false;
-                //if (!IsPlayer)
-                //{
-                //    Debug.Log("pushed by player with velocity " + otherVelocity.x + ", " + otherVelocity.y);
-                //}
                 parent = other.gameObject;
                 Velocity = otherVelocity;
                 moveCommand = true;
@@ -99,7 +96,11 @@ public class MovementComponent : MonoBehaviour
         {
             parent.GetComponent<MovementComponent>().sendBlockedToParents(level+1, reverseVelocity);
         }
+        // reset:
+        parent = null;
         moveCommand = true;
+        stop = true;
+        blocked = false;
     }
 
 }
