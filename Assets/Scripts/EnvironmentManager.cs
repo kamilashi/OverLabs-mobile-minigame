@@ -5,11 +5,11 @@ using UnityEngine;
 public class EnvironmentManager : MonoBehaviour
 {
     [SerializeField]
-    public GameManager gameReference;
+    public GameManager GameReference;
     private float _tileSize = 1;
     private const int _gridWidth = 5; // always odd - change to single square size later
     private const int _gridHeight = 5; 
-    private int _crateNumber = 3;
+    private int _crateNumber = 1;
     private List<GameObject> _crates = new List<GameObject>();
     private int[,] _positionMap = new int[_gridWidth, _gridHeight];
     private bool _mapLock = false;
@@ -21,9 +21,7 @@ public class EnvironmentManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GenerateTerrain();
-        GenerateCrates();
-        GenerateWalls();
+        Initialize();
     }
 
     // Update is called once per frame
@@ -31,16 +29,12 @@ public class EnvironmentManager : MonoBehaviour
     {
         if (!_mapLock)
         {
-            try
-            {
-
                 UpdatePositionMap();
-            }
-            catch (System.Exception)
-            {
-                Debug.Log("failed update environment");
-                throw;
-            } }
+                if (_crateNumber == 0)
+                {
+                GameReference.SendGameOver();
+                }
+        }
     }
 
     void GenerateTerrain()
@@ -58,6 +52,27 @@ public class EnvironmentManager : MonoBehaviour
         Destroy(refTile);
 
     }
+
+    internal void ResetAll()
+    {
+        // destroy all old crates:
+        foreach (GameObject crate in _crates)
+        {
+            Destroy(crate); // remove from unity scene
+        }
+        _crateNumber = 1; // set back to default number
+        _crates.Clear(); // clear the list to be filled with new crates later
+        Initialize();
+    }
+
+    void Initialize()
+    {
+        GenerateTerrain();
+        GenerateCrates();
+        GenerateWalls();
+        GameReference.SendStartReady();
+    }
+
     void GenerateWalls()
     {
         GameObject refTile = (GameObject)Instantiate(Resources.Load("TileWall"));
@@ -120,24 +135,6 @@ public class EnvironmentManager : MonoBehaviour
         Destroy(refCrate);
     }
 
-    // convert cartesian position coordinates into row and column indexes
-    Vector2 ToMapIndexes(float coordX, float coordY)
-    {
-        int offsetHorizontal = (int)((_gridWidth - _tileSize) / 2);
-        int offsetVertical = (int)((_gridHeight - _tileSize) / 2);
-        Vector2 mapCoords = new Vector2(_gridHeight - 1 - (int)(coordY + offsetVertical), (int)(coordX + offsetHorizontal ));
-        return mapCoords;
-    }
-
-    // convert row and column indexes into cartesian position coordinates
-    Vector3 ToPositionCoordinates(float mapRow, float mapCol)
-    {
-        int offsetHorizontal = (int)((_gridWidth - _tileSize) / 2);
-        int offsetVertical = (int)((_gridHeight - _tileSize) / 2);
-        Vector2 positionCoords = new Vector3((int)(mapCol - offsetHorizontal), (int)(- mapRow + _gridHeight - 1 - offsetVertical), 0);
-        return positionCoords;
-    }
-
     void UpdatePositionMap()
     {
         if (!_mapLock)
@@ -147,7 +144,7 @@ public class EnvironmentManager : MonoBehaviour
             System.Array.Clear(_positionMap, 0, _positionMap.Length);
 
             // get player coordinates
-            Vector2 _playerPosition = new Vector2(gameReference.PlayerReference.transform.position.x, gameReference.PlayerReference.transform.position.y);
+            Vector2 _playerPosition = new Vector2(GameReference.PlayerReference.transform.position.x, GameReference.PlayerReference.transform.position.y);
             Vector2 playerMapIndexes = ToMapIndexes(_playerPosition.x, _playerPosition.y);
 
             // store player coordinates in position map:
@@ -171,18 +168,7 @@ public class EnvironmentManager : MonoBehaviour
        
     }
 
-    public void PlayerPositionDebug()
-    {
-        Vector2 _playerPosition = new Vector2(gameReference.PlayerReference.transform.position.x, gameReference.PlayerReference.transform.position.y);
-        Vector2 playerMapIndexes = ToMapIndexes(_playerPosition.x, _playerPosition.y);
-        _positionMap[(int)playerMapIndexes.x, (int)playerMapIndexes.y] = -1;
-        Debug.Log("Player at (map position) " + playerMapIndexes.x + ", " + playerMapIndexes.y);
 
-        Vector3 playerCartPosition = ToPositionCoordinates(playerMapIndexes.x, playerMapIndexes.y) * _tileSize;
-        Debug.Log("Player at (unity position) " + playerCartPosition.x + ", " + playerCartPosition.y);
-
-
-    }
 
     public void CalculateCrateLogic()
     {
@@ -196,7 +182,7 @@ public class EnvironmentManager : MonoBehaviour
         System.Array.Clear(_positionMap, 0, _positionMap.Length);
 
         // store player position:
-        Vector2 _playerPosition = new Vector2(gameReference.PlayerReference.transform.position.x, gameReference.PlayerReference.transform.position.y);
+        Vector2 _playerPosition = new Vector2(GameReference.PlayerReference.transform.position.x, GameReference.PlayerReference.transform.position.y);
         Vector2 playerMapIndexes = ToMapIndexes(_playerPosition.x, _playerPosition.y);
         _positionMap[(int)playerMapIndexes.x, (int)playerMapIndexes.y] = -1;
 
@@ -250,17 +236,6 @@ public class EnvironmentManager : MonoBehaviour
         }
     }
 
-    bool inMatrixBounds(Vector2 indexes)
-    {
-        if ((indexes.x > 0) && (indexes.x < _gridWidth))
-        {
-            if ((indexes.y > 0) && (indexes.y < _gridHeight))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
     void instantiateCrates()
     {
         GameObject refCrate = (GameObject)Instantiate(Resources.Load("Crate"));
@@ -273,9 +248,7 @@ public class EnvironmentManager : MonoBehaviour
                     _positionMap[i, j] = _positionMap[i, j] % 2;
                     if (_positionMap[i, j]==1)
                     {
-                        //Debug.Log("1 crate at (map indexes) " + i + ", " + j);
                         Vector3 position = ToPositionCoordinates(i, j) * _tileSize;
-                        //Debug.Log("unity position: " + position.x + ", " + position.y);
                         _crateNumber++;
                         GameObject crate = (GameObject)Instantiate(refCrate, position, Quaternion.identity, transform);
                         _crates.Add(crate);
@@ -284,5 +257,46 @@ public class EnvironmentManager : MonoBehaviour
             }
         }
         Destroy(refCrate);
+    }
+
+
+    bool inMatrixBounds(Vector2 indexes)
+    {
+        if ((indexes.x > 0) && (indexes.x < _gridWidth))
+        {
+            if ((indexes.y > 0) && (indexes.y < _gridHeight))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void PlayerPositionDebug()
+    {
+        Vector2 _playerPosition = new Vector2(GameReference.PlayerReference.transform.position.x, GameReference.PlayerReference.transform.position.y);
+        Vector2 playerMapIndexes = ToMapIndexes(_playerPosition.x, _playerPosition.y);
+        _positionMap[(int)playerMapIndexes.x, (int)playerMapIndexes.y] = -1;
+        Debug.Log("Player at (map position) " + playerMapIndexes.x + ", " + playerMapIndexes.y);
+
+        Vector3 playerCartPosition = ToPositionCoordinates(playerMapIndexes.x, playerMapIndexes.y) * _tileSize;
+        Debug.Log("Player at (unity position) " + playerCartPosition.x + ", " + playerCartPosition.y);
+    }
+
+    // convert cartesian position coordinates into row and column indexes
+    Vector2 ToMapIndexes(float coordX, float coordY)
+    {
+        int offsetHorizontal = (int)((_gridWidth - _tileSize) / 2);
+        int offsetVertical = (int)((_gridHeight - _tileSize) / 2);
+        Vector2 mapCoords = new Vector2(_gridHeight - 1 - (int)(coordY + offsetVertical), (int)(coordX + offsetHorizontal));
+        return mapCoords;
+    }
+
+    // convert row and column indexes into cartesian position coordinates
+    Vector3 ToPositionCoordinates(float mapRow, float mapCol)
+    {
+        int offsetHorizontal = (int)((_gridWidth - _tileSize) / 2);
+        int offsetVertical = (int)((_gridHeight - _tileSize) / 2);
+        Vector2 positionCoords = new Vector3((int)(mapCol - offsetHorizontal), (int)(-mapRow + _gridHeight - 1 - offsetVertical), 0);
+        return positionCoords;
     }
 }
