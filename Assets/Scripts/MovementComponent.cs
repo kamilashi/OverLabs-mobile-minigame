@@ -52,7 +52,7 @@ public class MovementComponent : MonoBehaviour
         MovementComponent collidedWith = other.gameObject.GetComponent<MovementComponent>();
 
         if ((!IsWall) && (collidedWith.IsWall)) {
-            Debug.Log("collided with a wall!");
+            Debug.Log("Wall collision!");
             sendBlockedToParents(1, -Velocity);
             return;
         }
@@ -61,7 +61,6 @@ public class MovementComponent : MonoBehaviour
         if ((IsMovable) && (!collidedWith.blocked))
         {
             Vector3 otherVelocity = collidedWith.Velocity;
-            Debug.Log("Puching");
             if (Vector3.Magnitude(Velocity) < Vector3.Magnitude(otherVelocity))
             {
                 blocked = false;

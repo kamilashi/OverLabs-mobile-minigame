@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Velocity: {x: 0, y: 0, z: 0}
-  IsMovable: 0
+  IsMovable: 1
   IsPlayer: 1
   IsWall: 0
   blocked: 0
