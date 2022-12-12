@@ -14,7 +14,6 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-
         transform.position = Vector3.zero;
     }
     // Start is called before the first frame update
@@ -22,6 +21,16 @@ public class PlayerManager : MonoBehaviour
     {
         MovementComponent = gameObject.GetComponent<MovementComponent>();
         MovementComponent.IsMovable = false;
+        MovementComponent.IsMovable = true;
+    }
+
+    internal void ResetAll()
+    {
+        transform.position = Vector3.zero;
+ 
+        MovementComponent = gameObject.GetComponent<MovementComponent>();
+        MovementComponent.IsMovable = false;
+        MovementComponent.IsMovable = true;
     }
 
     // Update is called once per frame

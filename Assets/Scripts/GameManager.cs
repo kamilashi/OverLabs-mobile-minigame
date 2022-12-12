@@ -63,8 +63,13 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         _dayCounter = 1;
-        PlayerReference.transform.position = Vector3.zero;
-        EnvironmentReference.ResetAll();
+        //PlayerReference.transform.position = Vector3.zero;
+        PlayerReference.ResetAll();
+        EnvironmentReference.Initialize();
+        EnvironmentReference.Initialize();
+        SwitchToGameScreen();
+        _gameStarted = true;
+        _gameOver = false;
 
     }
     internal void SendGameOver()

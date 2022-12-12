@@ -62,15 +62,15 @@ public class EnvironmentManager : MonoBehaviour
         }
         _crateNumber = 1; // set back to default number
         _crates.Clear(); // clear the list to be filled with new crates later
-        Initialize();
     }
 
-    void Initialize()
+    internal void Initialize()
     {
+        ResetAll();
+        UpdatePositionMap(); //only store player coordinates
         GenerateTerrain();
         GenerateCrates();
         GenerateWalls();
-        GameReference.SendStartReady();
     }
 
     void GenerateWalls()
