@@ -63,14 +63,12 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         _dayCounter = 1;
-        //PlayerReference.transform.position = Vector3.zero;
         PlayerReference.ResetAll();
         EnvironmentReference.Initialize();
         EnvironmentReference.Initialize();
         SwitchToGameScreen();
         _gameStarted = true;
         _gameOver = false;
-
     }
     internal void SendGameOver()
     {
@@ -89,6 +87,7 @@ public class GameManager : MonoBehaviour
         _currentScreen.SetActive(false);
         _currentScreen = MainMenuScreen;
         _currentScreen.SetActive(true);
+        _gameOver = false;
     }
     public void SwitchToGameScreen()
     {
