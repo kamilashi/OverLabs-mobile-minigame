@@ -33,6 +33,7 @@ public class EnvironmentManager : MonoBehaviour
                 if (_crateNumber == 0)
                 {
                 GameReference.SendGameOver();
+                Initialize();
                 }
         }
     }
