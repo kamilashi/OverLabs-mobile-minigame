@@ -7,8 +7,8 @@ public class EnvironmentManager : MonoBehaviour
     [SerializeField]
     public GameManager gameReference;
     private float _tileSize = 1;
-    private const int _gridWidth = 7; // always odd - change to single square size later
-    private const int _gridHeight = 7; 
+    private const int _gridWidth = 5; // always odd - change to single square size later
+    private const int _gridHeight = 5; 
     private int _crateNumber = 3;
     private List<GameObject> _crates = new List<GameObject>();
     private int[,] _positionMap = new int[_gridWidth, _gridHeight];
