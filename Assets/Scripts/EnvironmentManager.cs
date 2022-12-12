@@ -147,11 +147,14 @@ public class EnvironmentManager : MonoBehaviour
             System.Array.Clear(_positionMap, 0, _positionMap.Length);
 
             // get player coordinates
-            Vector2 _playerPosition = new Vector2(gameReference.playerReference.transform.position.x, gameReference.playerReference.transform.position.y);
+            Vector2 _playerPosition = new Vector2(gameReference.PlayerReference.transform.position.x, gameReference.PlayerReference.transform.position.y);
             Vector2 playerMapIndexes = ToMapIndexes(_playerPosition.x, _playerPosition.y);
 
             // store player coordinates in position map:
-            _positionMap[(int)playerMapIndexes.x, (int)playerMapIndexes.y] = -1;
+            if (inMatrixBounds(playerMapIndexes))
+            {
+                _positionMap[(int)playerMapIndexes.x, (int)playerMapIndexes.y] = -1;
+            }
 
             // store crate coordinates - skip if  there are no crates yet
             foreach (GameObject crate in _crates)
@@ -170,7 +173,7 @@ public class EnvironmentManager : MonoBehaviour
 
     public void PlayerPositionDebug()
     {
-        Vector2 _playerPosition = new Vector2(gameReference.playerReference.transform.position.x, gameReference.playerReference.transform.position.y);
+        Vector2 _playerPosition = new Vector2(gameReference.PlayerReference.transform.position.x, gameReference.PlayerReference.transform.position.y);
         Vector2 playerMapIndexes = ToMapIndexes(_playerPosition.x, _playerPosition.y);
         _positionMap[(int)playerMapIndexes.x, (int)playerMapIndexes.y] = -1;
         Debug.Log("Player at (map position) " + playerMapIndexes.x + ", " + playerMapIndexes.y);
@@ -193,7 +196,7 @@ public class EnvironmentManager : MonoBehaviour
         System.Array.Clear(_positionMap, 0, _positionMap.Length);
 
         // store player position:
-        Vector2 _playerPosition = new Vector2(gameReference.playerReference.transform.position.x, gameReference.playerReference.transform.position.y);
+        Vector2 _playerPosition = new Vector2(gameReference.PlayerReference.transform.position.x, gameReference.PlayerReference.transform.position.y);
         Vector2 playerMapIndexes = ToMapIndexes(_playerPosition.x, _playerPosition.y);
         _positionMap[(int)playerMapIndexes.x, (int)playerMapIndexes.y] = -1;
 

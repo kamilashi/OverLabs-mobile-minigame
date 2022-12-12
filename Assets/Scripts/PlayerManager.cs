@@ -12,7 +12,11 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     internal MovementComponent MovementComponent;
 
+    private void Awake()
+    {
 
+        transform.position = Vector3.zero;
+    }
     // Start is called before the first frame update
     void Start()
     {
