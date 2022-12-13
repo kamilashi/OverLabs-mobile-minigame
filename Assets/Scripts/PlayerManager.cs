@@ -20,7 +20,6 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         MovementComponent = gameObject.GetComponent<MovementComponent>();
-        MovementComponent.IsMovable = false;
         MovementComponent.IsMovable = true;
     }
 
@@ -91,7 +90,7 @@ public class PlayerManager : MonoBehaviour
         Quaternion quarternion = new Quaternion();
         quarternion.Set(0, 0, zRotation, 1);
         transform.rotation = quarternion;
-        MovementComponent.blocked = false;
+        MovementComponent._blocked = false;
         MovementComponent.moveCommand = true;
     }
 }

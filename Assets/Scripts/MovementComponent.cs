@@ -11,11 +11,12 @@ public class MovementComponent : MonoBehaviour
     public bool IsPlayer = false;
     public bool IsWall = false;
     [SerializeField]
-    public bool blocked = false;
-    private bool stop = false;
-    public bool moveCommand = false;
+    public bool _blocked = false;
+    private bool _stop = false;
+    internal bool moveCommand = false;
     [SerializeField]
-    private GameObject parent;
+    private GameObject _parent;
+    private static bool _finalCollisionHappened = false;
 
     private void Awake()
     {
@@ -39,10 +40,11 @@ public class MovementComponent : MonoBehaviour
            //return;
         }
 
-        if (stop)
+        if (_stop)
         {
             Velocity = Vector3.zero;
-            stop = false;
+            _finalCollisionHappened = false;
+            _stop = false;
         }
 
     }
@@ -58,13 +60,13 @@ public class MovementComponent : MonoBehaviour
         }
 
         //be pushed when collided with an object of greater velocity
-        if ((IsMovable) && (!collidedWith.blocked))
+        if ((IsMovable) && (!collidedWith._blocked))
         {
             Vector3 otherVelocity = collidedWith.Velocity;
             if (Vector3.Magnitude(Velocity) < Vector3.Magnitude(otherVelocity))
             {
-                blocked = false;
-                parent = other.gameObject;
+                _blocked = false;
+                _parent = other.gameObject;
                 Velocity = otherVelocity;
                 moveCommand = true;
             }
@@ -76,7 +78,7 @@ public class MovementComponent : MonoBehaviour
     {
         if (IsMovable)
         {
-            stop = true;
+            _stop = true;
         }
     }
 
@@ -89,23 +91,29 @@ public class MovementComponent : MonoBehaviour
     private void sendBlockedToParents(int level, Vector3 reverseVelocity)
     {
 
-        blocked = true;
+        _blocked = true;
         Velocity = reverseVelocity;
-        if (parent != null) // move up the parent chain
+        if (_parent != null) // move up the parent chain
         {
-            parent.GetComponent<MovementComponent>().sendBlockedToParents(level+1, reverseVelocity);
+            _parent.GetComponent<MovementComponent>().sendBlockedToParents(level+1, reverseVelocity);
         }
-        else // if reached the player, play the collision animation
+        else if((IsPlayer)&&(!_finalCollisionHappened)) // if reached the player, play the collision animation
         {
             Vector3 position = transform.position + (-reverseVelocity / 2); // place it between the player and the closest collider
-            GameObject collisionAnimation = (GameObject)Instantiate(Resources.Load("NewtonsThirdLaw"), position, Quaternion.identity, transform);
-            Debug.Log("Ouch!");
+            GameObject collisionAnimation = (GameObject)Instantiate(Resources.Load("Ouch"), position, Quaternion.identity, transform);
+            Debug.Log("Ouch! reverseVelocity = "+ reverseVelocity);
+            _finalCollisionHappened = true;
         }
         // reset:
-        parent = null;
+        resetAll();
+    }
+
+    private void resetAll()
+    {
+        _parent = null;
         moveCommand = true;
-        stop = true;
-        blocked = false;
+        _stop = true;
+        _blocked = false;
     }
 
 }
