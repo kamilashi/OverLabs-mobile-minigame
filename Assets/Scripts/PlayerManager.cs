@@ -14,14 +14,20 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-
         transform.position = Vector3.zero;
     }
     // Start is called before the first frame update
     void Start()
     {
         MovementComponent = gameObject.GetComponent<MovementComponent>();
-        MovementComponent.IsMovable = false;
+        MovementComponent.IsMovable = true;
+    }
+
+    internal void ResetAll()
+    {
+        transform.position = Vector3.zero;
+        MovementComponent = gameObject.GetComponent<MovementComponent>();
+        MovementComponent.IsMovable = true;
     }
 
     // Update is called once per frame
@@ -58,23 +64,28 @@ public class PlayerManager : MonoBehaviour
 
     private void Move(Direction direction)
     {
+        float zRotation = 0;
         switch (direction)
         {
             case Direction.Right:
                 MovementComponent.Velocity = new Vector3(1, 0, 0);
+                zRotation = 90;
                 break;
             case Direction.Up:
                 MovementComponent.Velocity = new Vector3(0, 1, 0);
+                zRotation = 180;
                 break;
             case Direction.Left:
                 MovementComponent.Velocity = new Vector3(-1, 0, 0);
+                zRotation = -90;
                 break;
             case Direction.Down:
                 MovementComponent.Velocity = new Vector3(0, -1, 0);
+                zRotation = 0;
                 break;
 
         }
-
+        transform.rotation = Quaternion.Euler(0, 0, zRotation);
         MovementComponent.blocked = false;
         MovementComponent.moveCommand = true;
     }
