@@ -144,7 +144,7 @@ public class EnvironmentManager : MonoBehaviour
             _mapLock = true;
             System.Array.Clear(_positionMap, 0, _positionMap.Length);
 
-            // get player coordinates
+            // get player coordinates:
             Vector2 _playerPosition = new Vector2(GameReference.PlayerReference.transform.position.x, GameReference.PlayerReference.transform.position.y);
             Vector2 playerMapIndexes = ToMapIndexes(_playerPosition.x, _playerPosition.y);
 

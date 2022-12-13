@@ -26,9 +26,7 @@ public class PlayerManager : MonoBehaviour
     internal void ResetAll()
     {
         transform.position = Vector3.zero;
- 
         MovementComponent = gameObject.GetComponent<MovementComponent>();
-        MovementComponent.IsMovable = false;
         MovementComponent.IsMovable = true;
     }
 
@@ -87,10 +85,8 @@ public class PlayerManager : MonoBehaviour
                 break;
 
         }
-        Quaternion quarternion = new Quaternion();
-        quarternion.Set(0, 0, zRotation, 1);
-        transform.rotation = quarternion;
-        MovementComponent._blocked = false;
+        transform.rotation = Quaternion.Euler(0, 0, zRotation);
+        MovementComponent.blocked = false;
         MovementComponent.moveCommand = true;
     }
 }
