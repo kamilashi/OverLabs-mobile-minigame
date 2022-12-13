@@ -67,23 +67,30 @@ public class PlayerManager : MonoBehaviour
 
     private void Move(Direction direction)
     {
+        float zRotation = 0;
         switch (direction)
         {
             case Direction.Right:
                 MovementComponent.Velocity = new Vector3(1, 0, 0);
+                zRotation = 90;
                 break;
             case Direction.Up:
                 MovementComponent.Velocity = new Vector3(0, 1, 0);
+                zRotation = 180;
                 break;
             case Direction.Left:
                 MovementComponent.Velocity = new Vector3(-1, 0, 0);
+                zRotation = -90;
                 break;
             case Direction.Down:
                 MovementComponent.Velocity = new Vector3(0, -1, 0);
+                zRotation = 0;
                 break;
 
         }
-
+        Quaternion quarternion = new Quaternion();
+        quarternion.Set(0, 0, zRotation, 1);
+        transform.rotation = quarternion;
         MovementComponent.blocked = false;
         MovementComponent.moveCommand = true;
     }

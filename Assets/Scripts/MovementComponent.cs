@@ -91,9 +91,15 @@ public class MovementComponent : MonoBehaviour
 
         blocked = true;
         Velocity = reverseVelocity;
-        if (parent != null)
+        if (parent != null) // move up the parent chain
         {
             parent.GetComponent<MovementComponent>().sendBlockedToParents(level+1, reverseVelocity);
+        }
+        else // if reached the player, play the collision animation
+        {
+            Vector3 position = transform.position + (-reverseVelocity / 2); // place it between the player and the closest collider
+            GameObject collisionAnimation = (GameObject)Instantiate(Resources.Load("NewtonsThirdLaw"), position, Quaternion.identity, transform);
+            Debug.Log("Ouch!");
         }
         // reset:
         parent = null;
