@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 843c945b81c1ba043b441896fdaa07db, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -123,9 +123,8 @@ MonoBehaviour:
   IsMovable: 0
   IsPlayer: 0
   IsWall: 1
-  blocked: 0
-  moveCommand: 0
-  parent: {fileID: 0}
+  _stop: 0
+  _parent: {fileID: 0}
 --- !u!58 &6601528137037800732
 CircleCollider2D:
   m_ObjectHideFlags: 0
