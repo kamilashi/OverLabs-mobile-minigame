@@ -234,7 +234,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 16, y: 329}
-  m_SizeDelta: {x: 531.6851, y: 483.8561}
+  m_SizeDelta: {x: 583.6, y: 361.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &153925844
 MonoBehaviour:
@@ -269,9 +269,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Welcome to the OverLab Research Facility GMBH
-
-'
+  m_Text: "Welcome to the OverLabs \nResearch Facility\n"
 --- !u!222 &153925845
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -354,7 +352,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 09cfd4dfb3e0f714fae173296c544789, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -443,9 +441,8 @@ MonoBehaviour:
   IsMovable: 1
   IsPlayer: 1
   IsWall: 0
-  blocked: 0
-  moveCommand: 0
-  parent: {fileID: 0}
+  _stop: 0
+  _parent: {fileID: 0}
 --- !u!1 &348981866
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,7 +630,7 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "Fantastic! \n\n\nYou have fulfilled all of your duties so well that there
-    are no more for you left.\n\nThe OverLab RF GMBH wishes you all the best on your
+    are no more for you left.\n\nThe OverLabs RF wishes you all the best on your
     next journey.\n\n\nBye Bye!"
 --- !u!222 &636865695
 CanvasRenderer:
@@ -658,7 +655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &639240955
 Transform:
   m_ObjectHideFlags: 0
@@ -1627,10 +1624,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "You were assigned as a caretaker of the 94.o2 after your predecessor had
-    quit due to undisclosed reasons. \n\nIt is now your responsibility to maintain
-    the room with an unnatural behavior of multiplying any inanimate objects inside
-    it. \n\n\n\nStay safe & make sure things don't get out of hand!\n\n"
+  m_Text: "You were assigned as a caretaker of Lab Room 94.o2 after your predecessor
+    had quit due to undisclosed reasons. \n\nIt is now your responsibility to maintain
+    the room that shows a very unnatural behavior by multiplying any inanimate objects
+    inside it overnight. \n\n\n\nStay safe & make sure things don't get out of hand!\n\n"
 --- !u!222 &1443397756
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2011,7 +2008,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2035255355
 Transform:
   m_ObjectHideFlags: 0
